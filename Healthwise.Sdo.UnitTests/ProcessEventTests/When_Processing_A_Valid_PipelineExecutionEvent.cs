@@ -1,9 +1,4 @@
 ﻿using Azure.Messaging.EventHubs;
-using Healthwise.Sdo.Events.AzurePipelines;
-using Healthwise.Sdo.Events.Jira;
-using Healthwise.Sdo.Functions.Services;
-using Healthwise.Sdo.Functions.EventHub;
-using Healthwise.Sdo.Functions.Extentions;
 using Moq;
 using System;
 using System.Collections.Generic;
@@ -26,7 +21,7 @@ namespace Healthwise.Sdo.UnitTests.ProcessEventTests
         {
             _mockStorageService = new Mock<IStorageService>();
             _mockLogger = new Mock<Microsoft.Extensions.Logging.ILogger>();
-            var pipelineExecutionEvent = new PipelineExecutionEvent()
+            var pipelineExecutionEvent = new 
             {
                 Source = "Azure DevOps",
                 Type = "PipelineExecutionEvent",
@@ -52,7 +47,7 @@ namespace Healthwise.Sdo.UnitTests.ProcessEventTests
         [TestMethod]
         public async Task It_Should_Pass_Validation()
         {
-            var eventBody = await _eventData.GetEventBodyAsync<PipelineExecutionEvent>();
+            var eventBody = _eventData.GetEventBody<PipelineExecutionEvent>();
             Assert.IsTrue(eventBody.IsValid);
         }
 

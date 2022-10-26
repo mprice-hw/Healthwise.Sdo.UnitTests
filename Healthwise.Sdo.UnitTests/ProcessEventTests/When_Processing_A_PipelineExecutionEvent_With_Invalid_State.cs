@@ -5,12 +5,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Healthwise.Sdo.Events;
 
 namespace Healthwise.Sdo.UnitTests.ProcessEventTests
 {
     [TestClass]
-    public class When_Processing_An_Invalid_PipelineExecutionEvent
+    public class When_Processing_A_PipelineExecutionEvent_With_Invalid_State
     {
         private Mock<IStorageService> _mockStorageService;
         private Mock<Microsoft.Extensions.Logging.ILogger> _mockLogger;
@@ -21,24 +20,24 @@ namespace Healthwise.Sdo.UnitTests.ProcessEventTests
         {
             _mockStorageService = new Mock<IStorageService>();
             _mockLogger = new Mock<Microsoft.Extensions.Logging.ILogger>();
-            
-            //It's missing RunId which is required.
-            var pipelineExecutionEvent = new 
+
+            var pipelineExecutionEvent = new
             {
                 Source = "Azure DevOps",
                 Type = "PipelineExecutionEvent",
-                SourceId = "PipelineName-RunId",
+                SourceId = "Name-RunId",
                 Version = "1.0.0",
                 Timestamp = new DateTimeOffset(DateTime.Now),
                 Name = "Foobar",
+                RunId = 9999,
                 TeamName = "TeamName",
                 ServiceName = "ServiceName",
                 ServiceVersion = "1.1.1",
                 RepoName = "RepoName",
                 BranchName = "BranchName",
                 CommitHash = "CommitHash",
-                State = PipelineState.InProgress,
-                Result = PipelineResult.Uknown
+                State = "Foobar",
+                Result = "Uknown"
             };
 
             var binaryEventBody = new BinaryData(pipelineExecutionEvent);
